@@ -339,9 +339,31 @@ constexpr char AP_PASSWORD[] = "12345678";
 </pre>
         </div>
 
-        <!-- Buton pentru deschiderea panoului privat -->
+        <!-- Formular Contact direct în HTML (conectat la Netlify) -->
+        <div class="card" style="width: 100%; max-width: 100%; box-sizing: border-box;">
+            <h2>Contact</h2>
+            <p>Trimite un mesaj direct către adresa conectată la Netlify.</p>
+            <form name="contact" method="POST" data-netlify="true" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <input type="hidden" name="form-name" value="contact" />
+                <label style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+                    Nume
+                    <input type="text" name="name" required style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #385779; background: #0e1b2e; color: #eef6ff;" />
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+                    Email
+                    <input type="email" name="email" required style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #385779; background: #0e1b2e; color: #eef6ff;" />
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
+                    Mesaj
+                    <textarea name="message" rows="4" required style="width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #385779; background: #0e1b2e; color: #eef6ff; resize: vertical;"></textarea>
+                </label>
+                <button type="submit" style="width: fit-content; padding: 10px 22px; border-radius: 8px; border: none; background: #16ca8c; color: #07101e; font-weight: 700; cursor: pointer;">Send</button>
+            </form>
+        </div>
+
+        <!-- Buton pentru deschiderea/închiderea panoului privat -->
         <div class="btn-control-center">
-            <button class="btn-launch" onclick="togglePrivateControl()">🚀 Deschide Panoul de Control Privat</button>
+            <button id="togglePanelBtn" class="btn-launch" onclick="togglePrivateControl()">🚀 Deschide Panoul de Control Privat</button>
         </div>
 
         <!-- ================================================================= -->
@@ -404,21 +426,6 @@ constexpr char AP_PASSWORD[] = "12345678";
                             </div>
                         </section>
                     </div>
-                    <form name="contact" method="POST" data-netlify="true">
-                        <input type="hidden" name="form-name" value="contact" />
-                        <p>
-                          <label>Nume <input type="text" name="name" required /></label>
-                        </p>
-                        <p>
-                          <label>Email <input type="email" name="email" required /></label>
-                        </p>
-                        <p>
-                          <label>Mesaj <textarea name="message" required></textarea></label>
-                        </p>
-                        <p>
-                          <button type="submit">Send</button>
-                        </p>
-                      </form>
                 </main>
             </div>
         </div>
@@ -449,12 +456,17 @@ constexpr char AP_PASSWORD[] = "12345678";
             });
         }
 
-        // Funcție pentru deschiderea/închiderea panoului de control privat
+        // Funcție pentru deschiderea/închiderea panoului de control privat + schimbarea textului butonului
         function togglePrivateControl() {
             const panel = document.getElementById('private-control-panel');
-            panel.classList.toggle('active');
-            if(panel.classList.contains('active')) {
+            const btn = document.getElementById('togglePanelBtn');
+            const isOpen = panel.classList.toggle('active');
+
+            if (isOpen) {
+                btn.textContent = '🔒 Închide Panoul de Control Privat';
                 panel.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                btn.textContent = '🚀 Deschide Panoul de Control Privat';
             }
         }
 
